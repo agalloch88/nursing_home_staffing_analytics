@@ -1,4 +1,4 @@
-"""Inventory and verify the project's source files (build guide Phase 1).
+"""Inventory and verify the project's source files.
 
 For every file in the folder it records size and MD5. For every CSV it also records the
 encoding, line endings, column count, data-row count and ragged rows, and compares them and every
