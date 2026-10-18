@@ -1,0 +1,16 @@
+# Phase 2: analysis notebook
+pandas
+duckdb
+matplotlib
+jupyter
+# AWS access, the dataset registry, Delta table history
+boto3
+pyyaml
+awswrangler
+deltalake
+# Phase 6: dashboard
+streamlit
+plotly
+# Phase 4: infrastructure (CDK app)
+aws-cdk-lib
+constructs
