@@ -1,0 +1,151 @@
+{
+  "files": [
+    {
+      "md5Checksum": "376364923660ad1548c94b1d71a4b959",
+      "mimeType": "application/pdf",
+      "size": "673079",
+      "id": "12lwdtZMk6LLCqkMmMlqsT9R4TmDNTiwa",
+      "name": "NH_Data_Dictionary.pdf"
+    },
+    {
+      "md5Checksum": "ed6334063cf13f5fd0feccbce9162d98",
+      "mimeType": "text/csv",
+      "size": "1895",
+      "id": "1-5e2Yf-uxAxsieXpFoYD_DDdkrGxuA2i",
+      "name": "NH_CovidVaxAverages_20241027.csv"
+    },
+    {
+      "md5Checksum": "7e288ccf5f11651f48b306fd2c682565",
+      "mimeType": "text/csv",
+      "size": "621424",
+      "id": "1J_rJuxSGkO5S6GiNctn6SLlyfhOfovuT",
+      "name": "NH_CovidVaxProvider_20241027.csv"
+    },
+    {
+      "md5Checksum": "8d608a67c2048cc1837da7f28b70e07f",
+      "mimeType": "text/csv",
+      "size": "3653",
+      "id": "1_19DC3SicVO61nBjtSOnHMi3HKuO46Ps",
+      "name": "NH_HlthInspecCutpointsState_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "7457076b2b619926c5b17b39e39ad017",
+      "mimeType": "text/csv",
+      "size": "8297518",
+      "id": "1iRF8ZuIlsJ5V-zqphGwkfMPLaodBewBZ",
+      "name": "NH_SurveyDates_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "32c9093942a3ffc0de9afc62662e44e7",
+      "mimeType": "text/csv",
+      "size": "96299",
+      "id": "18CY3CvxRQBYyfULCU7TAOWwzEvcX6TI_",
+      "name": "NH_CitationDescriptions_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "fade6bd236b37eedb1806e9641d05736",
+      "mimeType": "text/csv",
+      "size": "5763",
+      "id": "1geePJ5Q0DQzPyj0mvsKeVrxDBQWHWaYh",
+      "name": "NH_DataCollectionIntervals_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "99de5f4044795d77a0e45271c33108cd",
+      "mimeType": "text/csv",
+      "size": "9973975",
+      "id": "1TjlwtUxTLrB7A6Kezz5nRZhl5wySj231",
+      "name": "NH_SurveySummary_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "6d52b8c8ea38af2de2f7204dde0791e4",
+      "mimeType": "text/csv",
+      "size": "22060",
+      "id": "1OPxTvyo6NPSTmPSYNygeCQwZsOfcVTI5",
+      "name": "NH_StateUSAverages_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "cd0d283fba2ad5ea44e9cbfe8533f82e",
+      "mimeType": "text/csv",
+      "size": "6616563",
+      "id": "12LKRdFKIjIndpeXn9b9iDNzd_v9E1yML",
+      "name": "Swing_Bed_SNF_data_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "81ba9e7e766760d1730afa07535696b9",
+      "mimeType": "text/csv",
+      "size": "155945141",
+      "id": "1oxQ6NMLfc_TAkmweHlx6TxZzTjZPsZlh",
+      "name": "Skilled_Nursing_Facility_Quality_Reporting_Program_Provider_Data_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "4c8e90a84a8a935c138fc0b913e42796",
+      "mimeType": "text/csv",
+      "size": "1756",
+      "id": "1LLYtgdAqLwod4WRou2hdTZ4m4NHnIKMC",
+      "name": "Skilled_Nursing_Facility_Quality_Reporting_Program_National_Data_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "0592154a26645c98e95c3f735b7a213c",
+      "mimeType": "text/csv",
+      "size": "9400081",
+      "id": "1BSXRMICt6tphHoJvWo4ATtxDqYEWUgP8",
+      "name": "NH_ProviderInfo_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "ecd685dec0361b9e83eff801ee36a48d",
+      "mimeType": "text/csv",
+      "size": "4735052",
+      "id": "1oNkzg14e_fR90eDj7pR8MP6oup_ufsFh",
+      "name": "NH_Penalties_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "1d210bd19a0d445a55c65ebb0a7f99d8",
+      "mimeType": "text/csv",
+      "size": "33187152",
+      "id": "1V5afdk5nfAmeqXSLYe_RMFAfCFzPna7H",
+      "name": "NH_Ownership_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "c03b68f2167b3fb3a1cde0cc2fe5c2a7",
+      "mimeType": "text/csv",
+      "size": "16700358",
+      "id": "1ug-wlaL_59XPNjosKdrOZBqB4d5SeWOr",
+      "name": "NH_QualityMsr_Claims_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "7a99d954042c2c52b17a21e40b0d50bd",
+      "mimeType": "text/csv",
+      "size": "80721336",
+      "id": "1I8O0hmVBAeiOcd9uLx9qONllYgKRjDDp",
+      "name": "NH_QualityMsr_MDS_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "6760b9b75dbcc403a08bd1b0745d8704",
+      "mimeType": "text/csv",
+      "size": "158941610",
+      "id": "1_ue0-xxx9cyog5UWgSxWsux8Tvd-Rt4c",
+      "name": "NH_HealthCitations_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "4c9f7144a58628026b70b8a45f1dfceb",
+      "mimeType": "text/csv",
+      "size": "69213056",
+      "id": "1ntT4E_SMDN3YqXyvvs1u4T-B6Tb9XG7H",
+      "name": "NH_FireSafetyCitations_Oct2024.csv"
+    },
+    {
+      "md5Checksum": "a5e32b07f18f290fb7c95dbbf3a588d4",
+      "mimeType": "text/csv",
+      "size": "1784908",
+      "id": "1Mfz2BXfwyEAg57YTAxW6Uj36VJjdheNO",
+      "name": "FY_2024_SNF_VBP_Facility_Performance.csv"
+    },
+    {
+      "md5Checksum": "61a66231e85ab829c191701a37458ec4",
+      "mimeType": "text/csv",
+      "size": "551",
+      "id": "1YlCz9pv2cHUKcQpMj2CWe7h4hVWs0j6x",
+      "name": "FY_2024_SNF_VBP_Aggregate_Performance.csv"
+    }
+  ]
+}
