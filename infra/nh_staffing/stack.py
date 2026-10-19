@@ -29,7 +29,7 @@ class NhStaffingStack(Stack):
 
         self._foundation()      # Phase 4a: bucket, script upload, secret, alert topic, databases, workgroup
         self._ingest()          # Phase 4b: the ingest job and its role
-        # self._bronze()        # Phase 4c: the Spark role and the six bronze jobs
+        self._bronze()          # Phase 4c: the Spark role and the six bronze jobs
         # self._silver()        # Phase 4d: four silver jobs
         # self._gold()          # Phase 4e: five gold jobs
         # self._workflow()      # Phase 4f: workflow, schedule and triggers
@@ -128,3 +128,47 @@ class NhStaffingStack(Stack):
                 "--folder_ids": ",".join(self.folder_ids),
             },
         )
+
+    # ---- Phase 4c ---------------------------------------------------------------------------
+    def _spark_job(self, name, script, extra_args):
+        """One Glue 5.1 Spark job. The 15 bronze, silver and gold jobs differ only in these three things."""
+        conf = " --conf ".join([                  # Glue takes several Spark settings through one --conf
+            "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension",
+            "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog",
+            "spark.delta.logStore.class=org.apache.spark.sql.delta.storage.S3SingleDriverLogStore",
+            "spark.hadoop.fs.s3a.endpoint.region=us-east-1",     # Glue 5.1's S3 connector assumes us-east-2
+        ])
+        return glue.CfnJob(
+            self, name, name=name, role=self.spark_role.role_arn,
+            command=glue.CfnJob.JobCommandProperty(
+                name="glueetl", python_version="3",
+                script_location=f"s3://{self.lake.bucket_name}/scripts/glue/{script}"),
+            glue_version="5.1", worker_type="G.1X", number_of_workers=2,
+            timeout=20, max_retries=0,            # a retry would repeat the same failure
+            execution_property=glue.CfnJob.ExecutionPropertyProperty(max_concurrent_runs=1),
+            default_arguments={
+                "--datalake-formats": "delta",
+                "--conf": conf,
+                "--extra-py-files": f"s3://{self.lake.bucket_name}/scripts/glue/common.py",
+                "--additional-python-modules": "pyyaml==6.0.2",   # Glue 5.1 doesn't ship PyYAML
+                "--bucket": self.lake.bucket_name,
+                "--enable-metrics": "true",
+                **extra_args,
+            },
+        )
+
+    def _bronze(self):
+        # One role for all 15 Spark jobs: read landing/ and scripts/, write the zones they own.
+        self.spark_role = iam.Role(
+            self, "SparkJobsRole", role_name="nh-spark-jobs",
+            assumed_by=iam.ServicePrincipal("glue.amazonaws.com"),
+            managed_policies=[iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSGlueServiceRole")],
+        )
+        self.lake.grant_read(self.spark_role, "landing/*")
+        self.lake.grant_read(self.spark_role, "scripts/*")
+        for prefix in ["bronze/*", "silver/*", "gold/*", "quarantine/*", "_checkpoints/*"]:
+            self.lake.grant_read_write(self.spark_role, prefix)
+
+        datasets = ["pbj_daily_staffing", "provider_info", "state_us_averages",
+                    "quality_claims", "snf_qrp", "snf_vbp"]
+        self.bronze_jobs = [self._spark_job(f"nh_bronze_{d}", "bronze.py", {"--dataset": d}) for d in datasets]
