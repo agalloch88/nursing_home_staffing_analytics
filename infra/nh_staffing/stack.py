@@ -28,7 +28,7 @@ class NhStaffingStack(Stack):
             raise ValueError("Fill in driveFolderIds and alertEmail in infra/cdk.json (Phase 4a, step 3)")
 
         self._foundation()      # Phase 4a: bucket, script upload, secret, alert topic, databases, workgroup
-        # self._ingest()        # Phase 4b: the ingest job and its role
+        self._ingest()          # Phase 4b: the ingest job and its role
         # self._bronze()        # Phase 4c: the Spark role and the six bronze jobs
         # self._silver()        # Phase 4d: four silver jobs
         # self._gold()          # Phase 4e: five gold jobs
@@ -92,3 +92,39 @@ class NhStaffingStack(Stack):
 
         CfnOutput(self, "LakeBucket", value=self.lake.bucket_name)
         CfnOutput(self, "AlertTopicArn", value=self.alerts.topic_arn)
+    
+    # ---- Phase 4b ---------------------------------------------------------------------------
+    def _ingest(self):
+        # The only role that can read the Google key. It reads the job code and the registry and
+        # writes landing/ only; the workflow permissions let it record and stop its own run (4f).
+        self.ingest_role = iam.Role(
+            self, "IngestJobRole", role_name="nh-ingest-job",
+            assumed_by=iam.ServicePrincipal("glue.amazonaws.com"),
+            managed_policies=[iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSGlueServiceRole")],
+        )
+        self.gdrive_secret.grant_read(self.ingest_role)
+        self.lake.grant_read(self.ingest_role, "scripts/*")
+        self.lake.grant_read_write(self.ingest_role, "landing/*")      # includes aborting multipart uploads
+        self.ingest_role.add_to_policy(iam.PolicyStatement(
+            actions=["glue:GetWorkflowRunProperties", "glue:PutWorkflowRunProperties", "glue:StopWorkflowRun"],
+            resources=[f"arn:aws:glue:{self.region}:{self.account}:workflow/nh-pipeline"],
+        ))
+
+        self.ingest_job = glue.CfnJob(
+            self, "IngestJob", name="nh_ingest_gdrive",
+            role=self.ingest_role.role_arn,
+            command=glue.CfnJob.JobCommandProperty(
+                name="pythonshell", python_version="3.9",
+                script_location=f"s3://{self.lake.bucket_name}/scripts/glue/ingest_gdrive.py"),
+            max_capacity=0.0625,                  # 1/16 DPU: 1 GB of memory, enough to stream 8 MB parts
+            timeout=30, max_retries=1,            # a rerun is safe: files already landed are skipped
+            execution_property=glue.CfnJob.ExecutionPropertyProperty(max_concurrent_runs=1),
+            default_arguments={
+                "library-set": "analytics",       # preinstalled boto3 and requests
+                "--additional-python-modules": "google-auth,pyyaml",
+                "--bucket": self.lake.bucket_name,
+                "--registry_key": "scripts/config/datasets.yml",
+                "--secret_id": "nh/gdrive/service-account",
+                "--folder_ids": ",".join(self.folder_ids),
+            },
+        )

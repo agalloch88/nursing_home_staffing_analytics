@@ -9,7 +9,7 @@ Source folders for the ingest job (nh_ingest_gdrive).
 | Supporting files | NH_Source/Supporting_CSV | 1aaGcQrvbt23nimZ9k7SecGGLCaA47GDR | 20 supporting CSVs and NH_Data_Dictionary.pdf |
 
 - Owner: ryankirsch88@gmail.com
-- Service account: <email, added in Phase 4b> (Viewer on NH_Source)
+- Service account: nh-drive-reader@nh-staffing-ingest.iam.gserviceaccount.com (Viewer on NH_Source)
 - Upload conversion: off ("Convert uploads to Google Docs editor format" cleared)
 
 cdk.json entry (Phase 4a):

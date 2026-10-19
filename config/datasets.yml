@@ -1,0 +1,327 @@
+# Dataset registry: written by scripts/make_registry.py. Edit by hand
+# only to change skip_files. Bronze keeps every column as text; silver casts.
+datasets:
+  pbj_daily_staffing:
+    pattern: '^PBJ_Daily_Nurse_Staffing_.*\.csv$'
+    bronze: true
+    encoding: [utf-8, cp1252]
+    rename: {"PROVNUM": ccn, "PROVNAME": facility_name, "WorkDate": work_date, "MDScensus": census}
+    skip_files: []
+    columns:                       # 33, in file order, from PBJ_Daily_Nurse_Staffing_Q2_2024.csv
+      - "PROVNUM"
+      - "PROVNAME"
+      - "CITY"
+      - "STATE"
+      - "COUNTY_NAME"
+      - "COUNTY_FIPS"
+      - "CY_Qtr"
+      - "WorkDate"
+      - "MDScensus"
+      - "Hrs_RNDON"
+      - "Hrs_RNDON_emp"
+      - "Hrs_RNDON_ctr"
+      - "Hrs_RNadmin"
+      - "Hrs_RNadmin_emp"
+      - "Hrs_RNadmin_ctr"
+      - "Hrs_RN"
+      - "Hrs_RN_emp"
+      - "Hrs_RN_ctr"
+      - "Hrs_LPNadmin"
+      - "Hrs_LPNadmin_emp"
+      - "Hrs_LPNadmin_ctr"
+      - "Hrs_LPN"
+      - "Hrs_LPN_emp"
+      - "Hrs_LPN_ctr"
+      - "Hrs_CNA"
+      - "Hrs_CNA_emp"
+      - "Hrs_CNA_ctr"
+      - "Hrs_NAtrn"
+      - "Hrs_NAtrn_emp"
+      - "Hrs_NAtrn_ctr"
+      - "Hrs_MedAide"
+      - "Hrs_MedAide_emp"
+      - "Hrs_MedAide_ctr"
+  provider_info:
+    pattern: '^NH_ProviderInfo_.*\.csv$'
+    bronze: true
+    encoding: [utf-8]
+    rename: {"CMS Certification Number (CCN)": ccn, "Provider Name": facility_name}
+    skip_files: []
+    columns:                       # 103, in file order, from NH_ProviderInfo_Oct2024.csv
+      - "CMS Certification Number (CCN)"
+      - "Provider Name"
+      - "Provider Address"
+      - "City/Town"
+      - "State"
+      - "ZIP Code"
+      - "Telephone Number"
+      - "Provider SSA County Code"
+      - "County/Parish"
+      - "Ownership Type"
+      - "Number of Certified Beds"
+      - "Average Number of Residents per Day"
+      - "Average Number of Residents per Day Footnote"
+      - "Provider Type"
+      - "Provider Resides in Hospital"
+      - "Legal Business Name"
+      - "Date First Approved to Provide Medicare and Medicaid Services"
+      - "Affiliated Entity Name"
+      - "Affiliated Entity ID"
+      - "Continuing Care Retirement Community"
+      - "Special Focus Status"
+      - "Abuse Icon"
+      - "Most Recent Health Inspection More Than 2 Years Ago"
+      - "Provider Changed Ownership in Last 12 Months"
+      - "With a Resident and Family Council"
+      - "Automatic Sprinkler Systems in All Required Areas"
+      - "Overall Rating"
+      - "Overall Rating Footnote"
+      - "Health Inspection Rating"
+      - "Health Inspection Rating Footnote"
+      - "QM Rating"
+      - "QM Rating Footnote"
+      - "Long-Stay QM Rating"
+      - "Long-Stay QM Rating Footnote"
+      - "Short-Stay QM Rating"
+      - "Short-Stay QM Rating Footnote"
+      - "Staffing Rating"
+      - "Staffing Rating Footnote"
+      - "Reported Staffing Footnote"
+      - "Physical Therapist Staffing Footnote"
+      - "Reported Nurse Aide Staffing Hours per Resident per Day"
+      - "Reported LPN Staffing Hours per Resident per Day"
+      - "Reported RN Staffing Hours per Resident per Day"
+      - "Reported Licensed Staffing Hours per Resident per Day"
+      - "Reported Total Nurse Staffing Hours per Resident per Day"
+      - "Total number of nurse staff hours per resident per day on the weekend"
+      - "Registered Nurse hours per resident per day on the weekend"
+      - "Reported Physical Therapist Staffing Hours per Resident Per Day"
+      - "Total nursing staff turnover"
+      - "Total nursing staff turnover footnote"
+      - "Registered Nurse turnover"
+      - "Registered Nurse turnover footnote"
+      - "Number of administrators who have left the nursing home"
+      - "Administrator turnover footnote"
+      - "Nursing Case-Mix Index"
+      - "Nursing Case-Mix Index Ratio"
+      - "Case-Mix Nurse Aide Staffing Hours per Resident per Day"
+      - "Case-Mix LPN Staffing Hours per Resident per Day"
+      - "Case-Mix RN Staffing Hours per Resident per Day"
+      - "Case-Mix Total Nurse Staffing Hours per Resident per Day"
+      - "Case-Mix Weekend Total Nurse Staffing Hours per Resident per Day"
+      - "Adjusted Nurse Aide Staffing Hours per Resident per Day"
+      - "Adjusted LPN Staffing Hours per Resident per Day"
+      - "Adjusted RN Staffing Hours per Resident per Day"
+      - "Adjusted Total Nurse Staffing Hours per Resident per Day"
+      - "Adjusted Weekend Total Nurse Staffing Hours per Resident per Day"
+      - "Rating Cycle 1 Standard Survey Health Date"
+      - "Rating Cycle 1 Total Number of Health Deficiencies"
+      - "Rating Cycle 1 Number of Standard Health Deficiencies"
+      - "Rating Cycle 1 Number of Complaint Health Deficiencies"
+      - "Rating Cycle 1 Health Deficiency Score"
+      - "Rating Cycle 1 Number of Health Revisits"
+      - "Rating Cycle 1 Health Revisit Score"
+      - "Rating Cycle 1 Total Health Score"
+      - "Rating Cycle 2 Standard Health Survey Date"
+      - "Rating Cycle 2 Total Number of Health Deficiencies"
+      - "Rating Cycle 2 Number of Standard Health Deficiencies"
+      - "Rating Cycle 2 Number of Complaint Health Deficiencies"
+      - "Rating Cycle 2 Health Deficiency Score"
+      - "Rating Cycle 2 Number of Health Revisits"
+      - "Rating Cycle 2 Health Revisit Score"
+      - "Rating Cycle 2 Total Health Score"
+      - "Rating Cycle 3 Standard Health Survey Date"
+      - "Rating Cycle 3 Total Number of Health Deficiencies"
+      - "Rating Cycle 3 Number of Standard Health Deficiencies"
+      - "Rating Cycle 3 Number of Complaint Health Deficiencies"
+      - "Rating Cycle 3 Health Deficiency Score"
+      - "Rating Cycle 3 Number of Health Revisits"
+      - "Rating Cycle 3 Health Revisit Score"
+      - "Rating Cycle 3 Total Health Score"
+      - "Total Weighted Health Survey Score"
+      - "Number of Facility Reported Incidents"
+      - "Number of Substantiated Complaints"
+      - "Number of Citations from Infection Control Inspections"
+      - "Number of Fines"
+      - "Total Amount of Fines in Dollars"
+      - "Number of Payment Denials"
+      - "Total Number of Penalties"
+      - "Location"
+      - "Latitude"
+      - "Longitude"
+      - "Geocoding Footnote"
+      - "Processing Date"
+  state_us_averages:
+    pattern: '^NH_StateUSAverages_.*\.csv$'
+    bronze: true
+    encoding: [utf-8]
+    rename: {"State or Nation": state}
+    skip_files: []
+    columns:                       # 48, in file order, from NH_StateUSAverages_Oct2024.csv
+      - "State or Nation"
+      - "Cycle 1 Total Number of Health Deficiencies"
+      - "Cycle 1 Total Number of Fire Safety Deficiencies"
+      - "Cycle 2 Total Number of Health Deficiencies"
+      - "Cycle 2 Total Number of Fire Safety Deficiencies"
+      - "Cycle 3 Total Number of Health Deficiencies"
+      - "Cycle 3 Total Number of Fire Safety Deficiencies"
+      - "Average Number of Residents per Day"
+      - "Reported Nurse Aide Staffing Hours per Resident per Day"
+      - "Reported LPN Staffing Hours per Resident per Day"
+      - "Reported RN Staffing Hours per Resident per Day"
+      - "Reported Licensed Staffing Hours per Resident per Day"
+      - "Reported Total Nurse Staffing Hours per Resident per Day"
+      - "Total number of nurse staff hours per resident per day on the weekend"
+      - "Registered Nurse hours per resident per day on the weekend"
+      - "Reported Physical Therapist Staffing Hours per Resident Per Day"
+      - "Total nursing staff turnover"
+      - "Registered Nurse turnover"
+      - "Number of administrators who have left the nursing home"
+      - "Nursing Case-Mix Index"
+      - "Case-Mix RN Staffing Hours per Resident per Day"
+      - "Case-Mix Total Nurse Staffing Hours per Resident per Day"
+      - "Case-Mix Weekend Total Nurse Staffing Hours per Resident per Day"
+      - "Number of Fines"
+      - "Fine Amount in Dollars"
+      - "Percentage of long stay residents whose need for help with daily activities has increased"
+      - "Percentage of long stay residents who lose too much weight"
+      - "Percentage of low risk long stay residents who lose control of their bowels or bladder"
+      - "Percentage of long stay residents with a catheter inserted and left in their bladder"
+      - "Percentage of long stay residents with a urinary tract infection"
+      - "Percentage of long stay residents who have depressive symptoms"
+      - "Percentage of long stay residents who were physically restrained"
+      - "Percentage of long stay residents experiencing one or more falls with major injury"
+      - "Percentage of long stay residents assessed and appropriately given the pneumococcal vaccine"
+      - "Percentage of long stay residents who received an antipsychotic medication"
+      - "Percentage of short stay residents assessed and appropriately given the pneumococcal vaccine"
+      - "Percentage of short stay residents who newly received an antipsychotic medication"
+      - "Percentage of long stay residents whose ability to move independently worsened"
+      - "Percentage of long stay residents who received an antianxiety or hypnotic medication"
+      - "Percentage of high risk long stay residents with pressure ulcers"
+      - "Percentage of long stay residents assessed and appropriately given the seasonal influenza vaccine"
+      - "Percentage of short stay residents who made improvements in function"
+      - "Percentage of short stay residents who were assessed and appropriately given the seasonal influenza vaccine"
+      - "Percentage of short stay residents who were rehospitalized after a nursing home admission"
+      - "Percentage of short stay residents who had an outpatient emergency department visit"
+      - "Number of hospitalizations per 1000 long-stay resident days"
+      - "Number of outpatient emergency department visits per 1000 long-stay resident days"
+      - "Processing Date"
+  quality_claims:
+    pattern: '^NH_QualityMsr_Claims_.*\.csv$'
+    bronze: true
+    encoding: [utf-8]
+    rename: {"CMS Certification Number (CCN)": ccn}
+    skip_files: []
+    columns:                       # 17, in file order, from NH_QualityMsr_Claims_Oct2024.csv
+      - "CMS Certification Number (CCN)"
+      - "Provider Name"
+      - "Provider Address"
+      - "City/Town"
+      - "State"
+      - "ZIP Code"
+      - "Measure Code"
+      - "Measure Description"
+      - "Resident type"
+      - "Adjusted Score"
+      - "Observed Score"
+      - "Expected Score"
+      - "Footnote for Score"
+      - "Used in Quality Measure Five Star Rating"
+      - "Measure Period"
+      - "Location"
+      - "Processing Date"
+  snf_qrp:
+    pattern: '^Skilled_Nursing_Facility_Quality_Reporting_Program_Provider_Data_.*\.csv$'
+    bronze: true
+    encoding: [utf-8]
+    rename: {"CMS Certification Number (CCN)": ccn}
+    skip_files: []
+    columns:                       # 16, in file order, from Skilled_Nursing_Facility_Quality_Reporting_Program_Provider_Data_Oct2024.csv
+      - "CMS Certification Number (CCN)"
+      - "Provider Name"
+      - "Address Line 1"
+      - "City/Town"
+      - "State"
+      - "ZIP Code"
+      - "County/Parish"
+      - "Telephone Number"
+      - "CMS Region"
+      - "Measure Code"
+      - "Score"
+      - "Footnote"
+      - "Start Date"
+      - "End Date"
+      - "Measure Date Range"
+      - "LOCATION1"
+  snf_vbp:
+    pattern: '^FY_\d{4}_SNF_VBP_Facility_Performance\.csv$'
+    bronze: true
+    encoding: [utf-8]
+    rename: {"CMS Certification Number (CCN)": ccn}
+    skip_files: []
+    columns:                       # 20, in file order, from FY_2024_SNF_VBP_Facility_Performance.csv
+      - "SNF VBP Program Ranking"
+      - "Footnote -- SNF VBP Program Ranking"
+      - "CMS Certification Number (CCN)"
+      - "Provider Name"
+      - "Provider Address"
+      - "City/Town"
+      - "State"
+      - "ZIP Code"
+      - "Baseline Period: FY 2019 Risk-Standardized Readmission Rate"
+      - "Footnote -- Baseline Period: FY 2019 Risk-Standardized Readmission Rate"
+      - "Performance Period: FY 2022 Risk-Standardized Readmission Rate"
+      - "Footnote -- Performance Period: FY 2022 Risk-Standardized Readmission Rate"
+      - "Achievement Score"
+      - "Footnote -- Achievement Score"
+      - "Improvement Score"
+      - "Footnote -- Improvement Score"
+      - "Performance Score"
+      - "Footnote -- Performance Score"
+      - "Incentive Payment Multiplier"
+      - "Footnote -- Incentive Payment Multiplier"
+  quality_mds:
+    pattern: '^NH_QualityMsr_MDS_.*\.csv$'
+    bronze: false
+  health_citations:
+    pattern: '^NH_HealthCitations_.*\.csv$'
+    bronze: false
+  fire_safety_citations:
+    pattern: '^NH_FireSafetyCitations_.*\.csv$'
+    bronze: false
+  citation_descriptions:
+    pattern: '^NH_CitationDescriptions_.*\.csv$'
+    bronze: false
+  ownership:
+    pattern: '^NH_Ownership_.*\.csv$'
+    bronze: false
+  penalties:
+    pattern: '^NH_Penalties_.*\.csv$'
+    bronze: false
+  survey_summary:
+    pattern: '^NH_SurveySummary_.*\.csv$'
+    bronze: false
+  survey_dates:
+    pattern: '^NH_SurveyDates_.*\.csv$'
+    bronze: false
+  covid_vax_provider:
+    pattern: '^NH_CovidVaxProvider_.*\.csv$'
+    bronze: false
+  covid_vax_averages:
+    pattern: '^NH_CovidVaxAverages_.*\.csv$'
+    bronze: false
+  data_collection_intervals:
+    pattern: '^NH_DataCollectionIntervals_.*\.csv$'
+    bronze: false
+  inspection_cutpoints:
+    pattern: '^NH_HlthInspecCutpointsState_.*\.csv$'
+    bronze: false
+  snf_qrp_national:
+    pattern: '^Skilled_Nursing_Facility_Quality_Reporting_Program_National_Data_.*\.csv$'
+    bronze: false
+  snf_vbp_aggregate:
+    pattern: '^FY_\d{4}_SNF_VBP_Aggregate_Performance\.csv$'
+    bronze: false
+  swing_bed:
+    pattern: '^Swing_Bed_SNF_data_.*\.csv$'
+    bronze: false
