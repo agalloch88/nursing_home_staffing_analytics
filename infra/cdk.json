@@ -1,0 +1,7 @@
+{
+  "app": "python app.py",
+  "context": {
+    "driveFolderIds": ["1Akgf_5R-zjEHMieWyH2fEy6UEwwjaqiV", "1aaGcQrvbt23nimZ9k7SecGGLCaA47GDR"],
+    "alertEmail": "ryankirsch88@gmail.com"
+  }
+}
