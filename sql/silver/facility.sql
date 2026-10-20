@@ -1,0 +1,30 @@
+-- sql/silver/facility.sql: one row per facility from provider info. Column names are bronze's
+-- snake_case versions of the CMS headers ('Number of Certified Beds' -> number_of_certified_beds).
+select ccn, facility_name,
+       city_town                                                                  as city,
+       state, county_parish                                                       as county,
+       ownership_type,
+       split_part(ownership_type, ' - ', 1)                                       as ownership_group,  -- For profit, Non profit, Government
+       provider_type,
+       cast(number_of_certified_beds as int)                                      as certified_beds,
+       cast(average_number_of_residents_per_day as double)                        as avg_residents_per_day,
+       cast(reported_rn_staffing_hours_per_resident_per_day as double)            as reported_rn_hprd,
+       cast(reported_lpn_staffing_hours_per_resident_per_day as double)           as reported_lpn_hprd,
+       cast(reported_nurse_aide_staffing_hours_per_resident_per_day as double)    as reported_aide_hprd,
+       cast(reported_total_nurse_staffing_hours_per_resident_per_day as double)   as reported_total_hprd,
+       cast(total_number_of_nurse_staff_hours_per_resident_per_day_on_the_weekend as double) as reported_weekend_hprd,
+       cast(overall_rating as int)                                                as overall_rating,
+       cast(staffing_rating as int)                                               as staffing_rating,
+       cast(total_nursing_staff_turnover as double)                               as total_nurse_turnover,
+       cast(latitude as double)                                                   as latitude,
+       cast(longitude as double)                                                  as longitude,
+       _source_file, _drive_file_id, _md5, _release, _ingested_at,
+       sha2(concat_ws('|', facility_name, city_town, state, county_parish, ownership_type, provider_type,
+                      number_of_certified_beds, average_number_of_residents_per_day,
+                      reported_rn_staffing_hours_per_resident_per_day,
+                      reported_lpn_staffing_hours_per_resident_per_day,
+                      reported_nurse_aide_staffing_hours_per_resident_per_day,
+                      reported_total_nurse_staffing_hours_per_resident_per_day,
+                      total_number_of_nurse_staff_hours_per_resident_per_day_on_the_weekend,
+                      overall_rating, staffing_rating, total_nursing_staff_turnover, latitude, longitude), 256) as _row_hash
+from batch

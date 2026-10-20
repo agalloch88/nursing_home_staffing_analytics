@@ -1,0 +1,11 @@
+Rules = [
+    IsPrimaryKey "ccn" "work_date" "_source_file",
+    ColumnLength "ccn" = 6,
+    IsComplete "work_date",
+    IsComplete "census",
+    ColumnValues "census" >= 0,
+    ColumnValues "rn_hours" >= 0,
+    ColumnValues "lpn_hours" >= 0,
+    ColumnValues "aide_hours" >= 0,
+    CustomSql "select count(*) from primary where contract_hours > total_nurse_hours + 0.01" = 0
+]

@@ -1,0 +1,7 @@
+Rules = [
+    IsPrimaryKey "ccn" "source" "measure_code" "_source_file",
+    ColumnLength "ccn" = 6,
+    ColumnValues "source" in [ "claims", "qrp", "vbp" ],
+    IsComplete "measure_code",
+    IsComplete "period"
+]

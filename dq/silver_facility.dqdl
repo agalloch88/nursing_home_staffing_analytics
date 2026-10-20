@@ -1,0 +1,8 @@
+Rules = [
+    IsPrimaryKey "ccn" "_source_file",
+    ColumnLength "ccn" = 6,
+    IsComplete "facility_name",
+    IsComplete "state",
+    ColumnValues "state" in [ "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY" ],
+    ColumnValues "certified_beds" > 0
+]

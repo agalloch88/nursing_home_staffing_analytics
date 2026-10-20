@@ -1,0 +1,6 @@
+Rules = [
+    IsPrimaryKey "state" "_source_file",
+    RowCount >= 50,
+    Completeness "avg_total_hprd" >= 0.95,
+    CustomSql "select count(*) from primary where avg_total_hprd < 2 or avg_total_hprd > 10" = 0
+]

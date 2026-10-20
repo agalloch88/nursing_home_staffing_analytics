@@ -46,3 +46,23 @@ def release_from_name(key):
     if m:
         return f"{m[1]}-{m[2]}"
     return None
+
+# Silver entities: each bronze source feeds one entity through its SQL transform.
+# key: one row per key in the silver table. dqdl: the ruleset every incoming row is checked against.
+ENTITIES = {
+    "staffing_daily": {
+        "sources": {"pbj_daily_staffing": "sql/silver/staffing_daily.sql"},
+        "key": ["ccn", "work_date"], "partition": ["work_month"],
+        "dqdl": "dq/silver_staffing_daily.dqdl"},
+    "facility": {
+        "sources": {"provider_info": "sql/silver/facility.sql"},
+        "key": ["ccn"], "dqdl": "dq/silver_facility.dqdl"},
+    "state_benchmarks": {
+        "sources": {"state_us_averages": "sql/silver/state_benchmarks.sql"},
+        "key": ["state"], "dqdl": "dq/silver_state_benchmarks.dqdl"},
+    "facility_quality": {
+        "sources": {"quality_claims": "sql/silver/fq_claims.sql",
+                    "snf_qrp": "sql/silver/fq_qrp.sql",
+                    "snf_vbp": "sql/silver/fq_vbp.sql"},
+        "key": ["ccn", "source", "measure_code"], "dqdl": "dq/silver_facility_quality.dqdl"},
+}

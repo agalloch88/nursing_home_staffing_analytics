@@ -30,7 +30,7 @@ class NhStaffingStack(Stack):
         self._foundation()      # Phase 4a: bucket, script upload, secret, alert topic, databases, workgroup
         self._ingest()          # Phase 4b: the ingest job and its role
         self._bronze()          # Phase 4c: the Spark role and the six bronze jobs
-        # self._silver()        # Phase 4d: four silver jobs
+        self._silver()          # Phase 4d: four silver jobs
         # self._gold()          # Phase 4e: five gold jobs
         # self._workflow()      # Phase 4f: workflow, schedule and triggers
         # self._alerts()        # Phase 4f: failure emails
@@ -172,3 +172,8 @@ class NhStaffingStack(Stack):
         datasets = ["pbj_daily_staffing", "provider_info", "state_us_averages",
                     "quality_claims", "snf_qrp", "snf_vbp"]
         self.bronze_jobs = [self._spark_job(f"nh_bronze_{d}", "bronze.py", {"--dataset": d}) for d in datasets]
+
+    # ---- Phase 4d ---------------------------------------------------------------------------
+    def _silver(self):
+        entities = ["staffing_daily", "facility", "state_benchmarks", "facility_quality"]
+        self.silver_jobs = [self._spark_job(f"nh_silver_{e}", "silver.py", {"--entity": e}) for e in entities]
