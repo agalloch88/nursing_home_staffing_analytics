@@ -31,7 +31,7 @@ class NhStaffingStack(Stack):
         self._ingest()          # Phase 4b: the ingest job and its role
         self._bronze()          # Phase 4c: the Spark role and the six bronze jobs
         self._silver()          # Phase 4d: four silver jobs
-        # self._gold()          # Phase 4e: five gold jobs
+        self._gold()            # Phase 4e: five gold jobs
         # self._workflow()      # Phase 4f: workflow, schedule and triggers
         # self._alerts()        # Phase 4f: failure emails
 
@@ -177,3 +177,13 @@ class NhStaffingStack(Stack):
     def _silver(self):
         entities = ["staffing_daily", "facility", "state_benchmarks", "facility_quality"]
         self.silver_jobs = [self._spark_job(f"nh_silver_{e}", "silver.py", {"--entity": e}) for e in entities]
+
+    # ---- Phase 4e ---------------------------------------------------------------------------
+    def _gold(self):
+        metrics = ["m1_staffing_hprd", "m2_nurse_hours", "m3_contract_share",
+                   "m4_occupancy", "m5_benchmarks_outcomes"]
+        # --exclude_suspect_days true leaves days above 24 HPRD and days with residents but no nurse
+        # hours out of the metrics; false counts them, as CMS does.
+        self.gold_jobs = [self._spark_job(f"nh_gold_{m}", "gold.py",
+                                          {"--metric": m, "--exclude_suspect_days": "true"})
+                          for m in metrics]

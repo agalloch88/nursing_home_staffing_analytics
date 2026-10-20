@@ -1,0 +1,4 @@
+Rules = [
+    CustomSql "select count(*) from (select ccn from primary group by ccn having count(*) < (select count(distinct work_date) from primary))" = 0,
+    CustomSql "select count(distinct ccn) from primary where certified_beds is null" <= 17
+]

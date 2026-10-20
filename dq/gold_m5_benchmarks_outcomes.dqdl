@@ -1,0 +1,4 @@
+Rules = [
+    CustomSql "select avg(case when abs(hprd_cms_rule / cms_reported_hprd - 1) <= 0.01 then 1.0 else 0.0 end) from primary where cms_reported_hprd > 0" >= 0.999,
+    CustomSql "select count(*) from primary where provider_type is null" <= 17
+]
