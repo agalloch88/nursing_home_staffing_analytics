@@ -21,7 +21,7 @@ cdk.json entry (Phase 4a):
 | Drop | Date | Folder | What was uploaded | Workflow run ID (Phase 4g) |
 | --- | --- | --- | --- | --- |
 | 1 | Oct 18, 2026 | Both | PBJ_Daily_Nurse_Staffing_2024_04.csv; 20 supporting CSVs; NH_Data_Dictionary.pdf | |
-| 2 | | Nursing_Data | PBJ_Daily_Nurse_Staffing_2024_05.csv | |
+| 2 | Oct 21, 2026 | Nursing_Data | PBJ_Daily_Nurse_Staffing_2024_05.csv | wr_2a7c6f25c977da536f3910608f3ecd8563f0597601df0dbe0c6954ea93df941c |
 | 3 | | Nursing_Data | PBJ_Daily_Nurse_Staffing_2024_04.csv again, as a new file | |
 | 4 | | Supporting_CSV | NH_ProviderInfo_Oct2024.csv replaced through Manage versions | |
 | 5 | | Nursing_Data | PBJ_Daily_Nurse_Staffing_2024_06.csv | |

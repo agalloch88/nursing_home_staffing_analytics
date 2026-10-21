@@ -32,8 +32,8 @@ class NhStaffingStack(Stack):
         self._bronze()          # Phase 4c: the Spark role and the six bronze jobs
         self._silver()          # Phase 4d: four silver jobs
         self._gold()            # Phase 4e: five gold jobs
-        # self._workflow()      # Phase 4f: workflow, schedule and triggers
-        # self._alerts()        # Phase 4f: failure emails
+        self._workflow()        # Phase 4f: workflow, schedule and triggers
+        self._alerts()          # Phase 4f: failure emails
 
     # ---- Phase 4a ---------------------------------------------------------------------------
     def _foundation(self):
@@ -187,3 +187,42 @@ class NhStaffingStack(Stack):
         self.gold_jobs = [self._spark_job(f"nh_gold_{m}", "gold.py",
                                           {"--metric": m, "--exclude_suspect_days": "true"})
                           for m in metrics]
+
+    # ---- Phase 4f ---------------------------------------------------------------------------
+    def _workflow(self):
+        # One run at a time: a start while a run is going is refused, so two runs never load the same files.
+        workflow = glue.CfnWorkflow(self, "Workflow", name="nh-pipeline", max_concurrent_runs=1,
+                                    description="Drive to landing, bronze, silver and gold")
+
+        def trigger(name, kind, start, after=(), **kwargs):
+            """Start the jobs in `start`; a CONDITIONAL trigger waits until every job in `after` succeeded.
+            .ref is the workflow or job name, and also makes CloudFormation create those first."""
+            predicate = glue.CfnTrigger.PredicateProperty(logical="AND", conditions=[
+                glue.CfnTrigger.ConditionProperty(job_name=j.ref, state="SUCCEEDED", logical_operator="EQUALS")
+                for j in after]) if after else None
+            return glue.CfnTrigger(self, name, name=name, type=kind, workflow_name=workflow.ref,
+                                   actions=[glue.CfnTrigger.ActionProperty(job_name=j.ref) for j in start],
+                                   predicate=predicate, **kwargs)
+
+        # The schedule is in UTC and is created switched off; Phase 4g switches it on.
+        trigger("nh-daily", "SCHEDULED", [self.ingest_job], schedule="cron(0 11 * * ? *)",
+                start_on_creation=True)
+        trigger("nh-after-ingest", "CONDITIONAL", self.bronze_jobs, after=[self.ingest_job], start_on_creation=True)
+        trigger("nh-after-bronze", "CONDITIONAL", self.silver_jobs, after=self.bronze_jobs, start_on_creation=True)
+        trigger("nh-after-silver", "CONDITIONAL", self.gold_jobs, after=self.silver_jobs, start_on_creation=True)
+
+    def _alerts(self):
+        # Glue sends a "Glue Job State Change" event whenever a job run ends. Failures and timeouts of the
+        # pipeline's jobs (names starting nh_) become emails; a run stopped because Drive had nothing new
+        # ends STOPPED and stays quiet.
+        rule = events.Rule(
+            self, "GlueJobFailed", rule_name="nh-glue-job-failed",
+            description="Email when an nh_ Glue job fails or times out",
+            event_pattern=events.EventPattern(
+                source=["aws.glue"], detail_type=["Glue Job State Change"],
+                detail={"state": ["FAILED", "TIMEOUT"], "jobName": events.Match.prefix("nh_")}),
+        )
+        field = events.EventField.from_path
+        rule.add_target(targets.SnsTopic(self.alerts, message=events.RuleTargetInput.from_text(
+            f"Glue job {field('$.detail.jobName')} ended {field('$.detail.state')} at {events.EventField.time}. "
+            f"Job run {field('$.detail.jobRunId')}. {field('$.detail.message')}")))

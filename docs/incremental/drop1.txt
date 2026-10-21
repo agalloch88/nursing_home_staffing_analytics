@@ -1,0 +1,32 @@
+started nh-pipeline run wr_2a7c6f25c977da536f3910608f3ecd8563f0597601df0dbe0c6954ea93df941c
+08:19:13  RUNNING   succeeded 0, running 0, failed 0, stopped 0
+08:20:13  RUNNING   succeeded 0, running 1, failed 0, stopped 0
+08:21:14  RUNNING   succeeded 1, running 0, failed 0, stopped 0
+08:21:44  RUNNING   succeeded 1, running 6, failed 0, stopped 0
+08:23:44  RUNNING   succeeded 7, running 0, failed 0, stopped 0
+08:24:15  RUNNING   succeeded 7, running 4, failed 0, stopped 0
+08:26:15  RUNNING   succeeded 9, running 2, failed 0, stopped 0
+08:26:46  RUNNING   succeeded 10, running 1, failed 0, stopped 0
+08:27:16  RUNNING   succeeded 11, running 0, failed 0, stopped 0
+08:27:46  RUNNING   succeeded 11, running 5, failed 0, stopped 0
+08:29:17  COMPLETED succeeded 16, running 0, failed 0, stopped 0
+
+nh-pipeline run wr_2a7c6f25c977da536f3910608f3ecd8563f0597601df0dbe0c6954ea93df941c: COMPLETED
+run properties: copied_files=21 rejected_files=1
+  nh_ingest_gdrive                   SUCCEEDED     71 s
+  nh_bronze_pbj_daily_staffing       SUCCEEDED    102 s
+  nh_bronze_provider_info            SUCCEEDED     96 s
+  nh_bronze_quality_claims           SUCCEEDED     93 s
+  nh_bronze_snf_qrp                  SUCCEEDED    107 s
+  nh_bronze_snf_vbp                  SUCCEEDED     88 s
+  nh_bronze_state_us_averages        SUCCEEDED     89 s
+  nh_silver_facility                 SUCCEEDED    117 s
+  nh_silver_facility_quality         SUCCEEDED    153 s
+  nh_silver_staffing_daily           SUCCEEDED    107 s
+  nh_silver_state_benchmarks         SUCCEEDED    120 s
+  nh_gold_m1_staffing_hprd           SUCCEEDED     85 s
+  nh_gold_m2_nurse_hours             SUCCEEDED     90 s
+  nh_gold_m3_contract_share          SUCCEEDED     93 s
+  nh_gold_m4_occupancy               SUCCEEDED    107 s
+  nh_gold_m5_benchmarks_outcomes     SUCCEEDED    106 s
+16 of 16 jobs started, 0 failed
