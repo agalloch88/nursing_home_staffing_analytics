@@ -3,8 +3,8 @@
 Usage (from the repo root, after source scripts/env.sh):
   python scripts/pipeline.py start            start a run, wait for it, print the result
   python scripts/pipeline.py start --force    the same, but the Spark jobs run even if Drive has nothing new
-  python scripts/pipeline.py resume           rerun the stage that failed in the latest run, and everything after it
-                                              (or: resume <run id>)
+  python scripts/pipeline.py resume           rerun the stage that failed in the latest failed run, and everything
+                                              after it (or: resume <run id>)
   python scripts/pipeline.py status           print the latest run (or: status <run id>)
 Exits with status 1 if any job failed or timed out.
 """
@@ -23,10 +23,16 @@ def get_run(run_id):
     return glue.get_workflow_run(Name=WORKFLOW, RunId=run_id, IncludeGraph=True)["Run"]
 
 
-def latest_run_id():
-    runs = glue.get_workflow_runs(Name=WORKFLOW, IncludeGraph=False, MaxResults=25)["Runs"]
+def latest_run_id(failed_only=False):
+    """The newest run, or with failed_only the newest run with a failed job that hasn't been resumed yet
+    (stopped runs from the daily schedule can come after the failure)."""
+    runs = glue.get_workflow_runs(Name=WORKFLOW, IncludeGraph=False, MaxResults=50)["Runs"]
+    if failed_only:
+        resumed = {r.get("PreviousRunId") for r in runs}
+        runs = [r for r in runs if r["WorkflowRunId"] not in resumed and r["Status"] == "COMPLETED"
+                and sum(r.get("Statistics", {}).get(k, 0) for k in ("FailedActions", "TimeoutActions", "ErroredActions"))]
     if not runs:
-        sys.exit(f"{WORKFLOW} has no runs yet")
+        sys.exit(f"{WORKFLOW} has no {'failed runs to resume' if failed_only else 'runs yet'}")
     return max(runs, key=lambda r: r["StartedOn"])["WorkflowRunId"]
 
 
@@ -93,7 +99,7 @@ def main():
         print(f"started {WORKFLOW} run {run_id}" + (" with force=true" if props else ""))
         wait(run_id)
     elif command == "resume":
-        previous = sys.argv[2] if len(sys.argv) > 2 else latest_run_id()
+        previous = sys.argv[2] if len(sys.argv) > 2 else latest_run_id(failed_only=True)
         nodes = job_nodes(get_run(previous))
         failed_stages = {stage(name) for name, r, _ in nodes if r and r["JobRunState"] in FAILED}
         if not failed_stages:
